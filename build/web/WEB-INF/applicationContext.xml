@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+    <bean id="daoUsuario" class="wyv.persistencia.DaoUsuarioImp"/>
+    <bean id="serUsuario" class="wyv.servicios.ServicioUsuarioImp" >  
+    <property name="daoUsu" ref="daoUsuario" />
+    </bean>
+    <bean id="daoClie" class="wyv.persistencia.DaoClienteImp" />
+    <bean id="serClie" class="wyv.servicios.ServicioClienteImp">
+    <property name="daoClie" ref="daoClie" />
+    </bean>
+    <bean id="daoProducto" class="wyv.persistencia.DaoProductoImp" />
+    <bean id="serProducto" class="wyv.servicios.ServicioProductoImp" >  
+    <property name="daoProd" ref="daoProducto" />
+    </bean>
+    <bean id="daoCategoria" class="wyv.persistencia.DaoCategoriaImp" />
+    <bean id="serCategoria" class="wyv.servicios.ServicioCategoriaImp" >
+        <property name="daoCate" ref="daoCategoria"/>
+    </bean>
+    <bean id="daoVenta" class="wyv.persistencia.DaoVentaImp" />
+    <bean id="serVenta" class="wyv.servicios.ServicioVentaImp" >
+        <property name="daoVen" ref="daoVenta"/>
+    </bean>
+    <bean id="/Acceso" class="wyv.presentacion.Acceso">
+    <property name="serUsu" ref="serUsuario" />
+    <property name="servClie" ref="serClie" />
+    <property name="servProd" ref="serProducto" />
+    <property name="servCate" ref="serCategoria" />
+    <property name="servVenta" ref="serVenta" />
+    </bean>
+
+</beans>

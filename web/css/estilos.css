@@ -1,0 +1,25 @@
+
+
+.desactivado
+{
+    /*pointer-events: none;
+    cursor: default;
+    opacity: .5;*/
+    background-color: red;
+}
+
+.activo
+{
+    /*pointer-events: none;
+    cursor: default;
+    opacity: .5;*/
+    background-color: greenyellow;
+}
+
+.trdesactivado
+{
+    pointer-events: none;
+    cursor: default;
+    opacity: .5;
+    
+}
