@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2020 a las 03:44:15
+-- Tiempo de generación: 02-06-2020 a las 23:36:01
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.5
 
@@ -28,8 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `administrador` (
-  `idAdmin` int(11) NOT NULL,
-  `dni` char(8) DEFAULT NULL,
+  `dni` char(8) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -73,6 +72,7 @@ CREATE TABLE `detallepedido` (
   `idDetalle` int(11) NOT NULL,
   `fecha` datetime DEFAULT NULL,
   `cantidad` int(3) DEFAULT NULL,
+  `precio` double(10,2) DEFAULT NULL,
   `idProducto` int(11) DEFAULT NULL,
   `idPedido` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -148,7 +148,7 @@ CREATE TABLE `producto` (
 -- Indices de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`idAdmin`);
+  ADD PRIMARY KEY (`dni`);
 
 --
 -- Indices de la tabla `categoria`
@@ -201,12 +201,6 @@ ALTER TABLE `producto`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
-
---
--- AUTO_INCREMENT de la tabla `administrador`
---
-ALTER TABLE `administrador`
-  MODIFY `idAdmin` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
