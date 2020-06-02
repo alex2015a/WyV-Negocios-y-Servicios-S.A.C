@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2020 a las 01:33:21
+-- Tiempo de generación: 02-06-2020 a las 03:44:15
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.5
 
@@ -167,8 +167,8 @@ ALTER TABLE `cliente`
 --
 ALTER TABLE `detallepedido`
   ADD PRIMARY KEY (`idDetalle`),
-  ADD KEY `idProducto` (`idProducto`),
-  ADD KEY `idPedido` (`idPedido`);
+  ADD KEY `detallepedido_ibfk_1` (`idProducto`),
+  ADD KEY `detallepedido_ibfk_2` (`idPedido`);
 
 --
 -- Indices de la tabla `empresa`
@@ -187,16 +187,68 @@ ALTER TABLE `marca`
 --
 ALTER TABLE `pedido`
   ADD PRIMARY KEY (`idPedido`),
-  ADD KEY `idCliente` (`idCliente`),
-  ADD KEY `idEmpresa` (`idEmpresa`);
+  ADD KEY `pedido_ibfk_1` (`idCliente`),
+  ADD KEY `pedido_ibfk_2` (`idEmpresa`);
 
 --
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
   ADD PRIMARY KEY (`idProducto`),
-  ADD KEY `idCategoria` (`idCategoria`),
-  ADD KEY `idMarca` (`idMarca`);
+  ADD KEY `producto_ibfk_1` (`idCategoria`),
+  ADD KEY `producto_ibfk_2` (`idMarca`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `idAdmin` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `detallepedido`
+--
+ALTER TABLE `detallepedido`
+  MODIFY `idDetalle` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `empresa`
+--
+ALTER TABLE `empresa`
+  MODIFY `idEmpresa` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `marca`
+--
+ALTER TABLE `marca`
+  MODIFY `idMarca` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `producto`
+--
+ALTER TABLE `producto`
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
