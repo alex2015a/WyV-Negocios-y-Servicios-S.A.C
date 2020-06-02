@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-06-2020 a las 01:42:12
+-- Tiempo de generación: 02-06-2020 a las 01:33:21
 -- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.4.3
+-- Versión de PHP: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,23 +24,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `administrador`
+--
+
+CREATE TABLE `administrador` (
+  `idAdmin` int(11) NOT NULL,
+  `dni` char(8) DEFAULT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `categoria`
 --
 
 CREATE TABLE `categoria` (
-  `codigo` int(11) NOT NULL,
-  `nombre` varchar(30) NOT NULL,
-  `descripcion` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `categoria`
---
-
-INSERT INTO `categoria` (`codigo`, `nombre`, `descripcion`) VALUES
-(1, 'Piel', 'Para piel'),
-(2, 'Perfume', 'Para hombre'),
-(3, 'ColoniaEDIT', 'Para mujer');
+  `idCategoria` int(11) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `descripcion` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -50,35 +53,74 @@ INSERT INTO `categoria` (`codigo`, `nombre`, `descripcion`) VALUES
 --
 
 CREATE TABLE `cliente` (
-  `idcli` int(11) NOT NULL,
-  `nomCli` varchar(100) NOT NULL,
-  `teleCli` varchar(9) NOT NULL,
-  `direCli` varchar(100) NOT NULL,
-  `Email` varchar(200) NOT NULL,
-  `Dni` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `cliente`
---
-
-INSERT INTO `cliente` (`idcli`, `nomCli`, `teleCli`, `direCli`, `Email`, `Dni`) VALUES
-(3, 'Angel1', '1245789', 'villa', 'chorillos', '54897612'),
-(5, 'luis', '45797562', 'villa', 'luis@hotmail.com', '45879634');
+  `idCliente` int(11) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `apellido` varchar(100) DEFAULT NULL,
+  `dni` char(8) DEFAULT NULL,
+  `numCelular` int(9) DEFAULT NULL,
+  `direccion` varchar(200) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detalle`
+-- Estructura de tabla para la tabla `detallepedido`
 --
 
-CREATE TABLE `detalle` (
-  `can` int(11) NOT NULL,
-  `precio` double(10,2) NOT NULL,
-  `importe` double(10,2) NOT NULL,
-  `num_venta` char(10) NOT NULL,
-  `codPro` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `detallepedido` (
+  `idDetalle` int(11) NOT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `cantidad` int(3) DEFAULT NULL,
+  `idProducto` int(11) DEFAULT NULL,
+  `idPedido` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empresa`
+--
+
+CREATE TABLE `empresa` (
+  `idEmpresa` int(11) NOT NULL,
+  `ruc` char(11) DEFAULT NULL,
+  `razonsocial` varchar(200) DEFAULT NULL,
+  `vision` varchar(2500) DEFAULT NULL,
+  `mision` varchar(2500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `marca`
+--
+
+CREATE TABLE `marca` (
+  `idMarca` int(11) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pedido`
+--
+
+CREATE TABLE `pedido` (
+  `idPedido` int(11) NOT NULL,
+  `numero` char(10) DEFAULT NULL,
+  `fecha` datetime DEFAULT NULL,
+  `subtotal` double(10,2) DEFAULT NULL,
+  `totalDescuento` double(10,2) DEFAULT NULL,
+  `igv` double(10,2) DEFAULT NULL,
+  `total` double(10,2) DEFAULT NULL,
+  `pago` double(10,2) DEFAULT NULL,
+  `estado` char(1) DEFAULT NULL,
+  `idCliente` int(11) DEFAULT NULL,
+  `idEmpresa` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -87,152 +129,99 @@ CREATE TABLE `detalle` (
 --
 
 CREATE TABLE `producto` (
-  `codPro` int(11) NOT NULL,
-  `nombre` varchar(30) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `descuento` int(11) NOT NULL,
-  `proveedor` varchar(100) NOT NULL,
-  `preciocom` double(10,2) NOT NULL,
-  `precioven` double(10,2) NOT NULL,
-  `codigocat` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `producto`
---
-
-INSERT INTO `producto` (`codPro`, `nombre`, `cantidad`, `descuento`, `proveedor`, `preciocom`, `precioven`, `codigocat`) VALUES
-(1, 'Crema', 12, 10, 'Esika', 15.00, 12.00, 3),
-(2, 'PERFUME GRAZZIA EXOTIC', 12, 20, 'esika', 12.00, 60.00, 3),
-(3, 'Perfume flue', 12, 30, 'Label', 12.00, 60.00, 3),
-(8, 'Crema para acne', 15, 0, 'Esika', 12.00, 15.00, 3);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `dni` char(8) NOT NULL,
-  `nom` varchar(40) NOT NULL,
-  `pass` varchar(10) NOT NULL,
-  `tipo` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `usuario`
---
-
-INSERT INTO `usuario` (`dni`, `nom`, `pass`, `tipo`) VALUES
-('64896475', 'Angel', '223', '2'),
-('73184116', 'Bryan', '12345', '1');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `venta`
---
-
-CREATE TABLE `venta` (
-  `num` char(10) NOT NULL,
-  `fec` varchar(20) NOT NULL,
-  `pago` double(10,2) NOT NULL,
-  `total` double(10,2) NOT NULL,
-  `estado` int(1) NOT NULL,
-  `idcli` int(11) NOT NULL,
-  `dni_usu` char(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idProducto` int(11) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `proveedor` varchar(50) DEFAULT NULL,
+  `precioCompra` double(10,2) DEFAULT NULL,
+  `precioVenta` double(10,2) DEFAULT NULL,
+  `descuento` double(10,2) DEFAULT NULL,
+  `idCategoria` int(11) DEFAULT NULL,
+  `idMarca` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`idAdmin`);
+
+--
 -- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`codigo`);
+  ADD PRIMARY KEY (`idCategoria`);
 
 --
 -- Indices de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  ADD PRIMARY KEY (`idcli`);
+  ADD PRIMARY KEY (`idCliente`);
 
 --
--- Indices de la tabla `detalle`
+-- Indices de la tabla `detallepedido`
 --
-ALTER TABLE `detalle`
-  ADD PRIMARY KEY (`num_venta`,`codPro`),
-  ADD KEY `codPro` (`codPro`);
+ALTER TABLE `detallepedido`
+  ADD PRIMARY KEY (`idDetalle`),
+  ADD KEY `idProducto` (`idProducto`),
+  ADD KEY `idPedido` (`idPedido`);
+
+--
+-- Indices de la tabla `empresa`
+--
+ALTER TABLE `empresa`
+  ADD PRIMARY KEY (`idEmpresa`);
+
+--
+-- Indices de la tabla `marca`
+--
+ALTER TABLE `marca`
+  ADD PRIMARY KEY (`idMarca`);
+
+--
+-- Indices de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  ADD PRIMARY KEY (`idPedido`),
+  ADD KEY `idCliente` (`idCliente`),
+  ADD KEY `idEmpresa` (`idEmpresa`);
 
 --
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD PRIMARY KEY (`codPro`),
-  ADD KEY `codigocat` (`codigocat`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`dni`);
-
---
--- Indices de la tabla `venta`
---
-ALTER TABLE `venta`
-  ADD PRIMARY KEY (`num`),
-  ADD KEY `idcli` (`idcli`),
-  ADD KEY `dni_usu` (`dni_usu`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `categoria`
---
-ALTER TABLE `categoria`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `cliente`
---
-ALTER TABLE `cliente`
-  MODIFY `idcli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `producto`
---
-ALTER TABLE `producto`
-  MODIFY `codPro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  ADD PRIMARY KEY (`idProducto`),
+  ADD KEY `idCategoria` (`idCategoria`),
+  ADD KEY `idMarca` (`idMarca`);
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `detalle`
+-- Filtros para la tabla `detallepedido`
 --
-ALTER TABLE `detalle`
-  ADD CONSTRAINT `detalle_ibfk_1` FOREIGN KEY (`num_venta`) REFERENCES `venta` (`num`),
-  ADD CONSTRAINT `detalle_ibfk_2` FOREIGN KEY (`codPro`) REFERENCES `producto` (`codPro`);
+ALTER TABLE `detallepedido`
+  ADD CONSTRAINT `detallepedido_ibfk_1` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`idProducto`),
+  ADD CONSTRAINT `detallepedido_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`);
+
+--
+-- Filtros para la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  ADD CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idCliente`),
+  ADD CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`idEmpresa`) REFERENCES `empresa` (`idEmpresa`);
 
 --
 -- Filtros para la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`codigocat`) REFERENCES `categoria` (`codigo`);
-
---
--- Filtros para la tabla `venta`
---
-ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`idcli`) REFERENCES `cliente` (`idcli`),
-  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`dni_usu`) REFERENCES `usuario` (`dni`);
+  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`idCategoria`) REFERENCES `categoria` (`idCategoria`),
+  ADD CONSTRAINT `producto_ibfk_2` FOREIGN KEY (`idMarca`) REFERENCES `marca` (`idMarca`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
